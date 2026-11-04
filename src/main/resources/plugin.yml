@@ -1,0 +1,38 @@
+name: homes
+version: 1.0.0
+main: com.wessel.mittenshomes.Homes
+api-version: 1.21
+description: "Home plugin - /home, /sethome, /delhome, /homes (max 3 homes)"
+author: Wessel
+
+commands:
+  home:
+    description: Teleport to a home
+    usage: /home <name>
+    permission: mittenshomes.home
+  sethome:
+    description: Set a home
+    usage: /sethome <name>
+    permission: mittenshomes.sethome
+  delhome:
+    description: Delete a home
+    usage: /delhome <name>
+    permission: mittenshomes.delhome
+  homes:
+    description: Open home GUI
+    usage: /homes
+    permission: mittenshomes.homes
+
+permissions:
+  mittenshomes.home:
+    description: Allows using /home
+    default: true
+  mittenshomes.sethome:
+    description: Allows using /sethome
+    default: true
+  mittenshomes.delhome:
+    description: Allows using /delhome
+    default: true
+  mittenshomes.homes:
+    description: Allows using /homes
+    default: true

@@ -1,0 +1,4 @@
+# MittensHomes configuration
+# Homes are automatically saved here and persist across restarts.
+
+homes: {}
