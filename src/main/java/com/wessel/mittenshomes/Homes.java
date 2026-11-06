@@ -1,46 +1,52 @@
 package com.wessel.mittenshomes;
+
+import com.wessel.mittenshomes.command.*;
+import com.wessel.mittenshomes.gui.HomeGUIListener;
 import com.wessel.mittenshomes.manager.HomeManager;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
+import java.util.logging.Level;
+
 public class Homes extends JavaPlugin {
     private static Homes instance;
     private HomeManager homeManager;
+
     @Override
     public void onEnable() {
         instance = this;
         try {
             saveDefaultConfig();
+            // Bukkit's default loader logs malformed YAML and returns an empty config.
+            // Fail closed instead, before an edit could overwrite the original homes.
+            new org.bukkit.configuration.file.YamlConfiguration().load(
+                    new java.io.File(getDataFolder(), "config.yml"));
             homeManager = new HomeManager(this);
-            registerCommand("home", new com.wessel.mittenshomes.command.HomeCommand(this));
-            registerCommand("sethome", new com.wessel.mittenshomes.command.SethomeCommand(this));
-            registerCommand("delhome", new com.wessel.mittenshomes.command.DelhomeCommand(this));
-            registerCommand("homes", new com.wessel.mittenshomes.command.HomesCommand(this));
-            getServer().getPluginManager().registerEvents(new com.wessel.mittenshomes.gui.HomeGUIListener(this), this);
+            registerCommand("home", new HomeCommand(this));
+            registerCommand("sethome", new SethomeCommand(this));
+            registerCommand("delhome", new DelhomeCommand(this));
+            registerCommand("homes", new HomesCommand(this));
+            getServer().getPluginManager().registerEvents(new HomeGUIListener(this), this);
             getLogger().info("homes has been enabled!");
-        } catch (Exception e) {
-            getLogger().severe("Failed to enable homes plugin:");
-            e.printStackTrace();
+        } catch (Exception ex) {
+            getLogger().log(Level.SEVERE, "Failed to enable homes plugin", ex);
+            getServer().getPluginManager().disablePlugin(this);
         }
     }
+
     @Override
     public void onDisable() {
-        getLogger().info("homes has been disabled!");
+        if (homeManager != null) homeManager.shutdown();
+        instance = null;
     }
-    private void registerCommand(String name, org.bukkit.command.CommandExecutor executor) {
-        org.bukkit.command.Command cmd = getCommand(name);
-        if (cmd == null) {
-            getLogger().warning("Command '" + name + "' not found in plugin.yml!");
-            return;
-        }
-        if (cmd instanceof org.bukkit.command.PluginCommand) {
-            ((org.bukkit.command.PluginCommand) cmd).setExecutor(executor);
-        } else {
-            getLogger().warning("Command '" + name + "' is not a PluginCommand!");
-        }
+
+    private void registerCommand(String name, TabExecutor executor) {
+        PluginCommand command = getCommand(name);
+        if (command == null) throw new IllegalStateException("Command '" + name + "' missing from plugin.yml");
+        command.setExecutor(executor);
+        command.setTabCompleter(executor);
     }
-    public static Homes getInstance() {
-        return instance;
-    }
-    public HomeManager getHomeManager() {
-        return homeManager;
-    }
+
+    public static Homes getInstance() { return instance; }
+    public HomeManager getHomeManager() { return homeManager; }
 }

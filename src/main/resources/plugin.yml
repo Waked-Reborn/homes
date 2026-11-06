@@ -1,14 +1,14 @@
 name: homes
-version: 1.0.0
+version: '${project.version}'
 main: com.wessel.mittenshomes.Homes
-api-version: 1.21
+api-version: '1.21'
 description: "Home plugin - /home, /sethome, /delhome, /homes (max 3 homes)"
 author: Wessel
 
 commands:
   home:
     description: Teleport to a home
-    usage: /home <name>
+    usage: /home [name]
     permission: mittenshomes.home
   sethome:
     description: Set a home

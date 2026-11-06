@@ -1,0 +1,55 @@
+MittensHomes - Proprietary License
+Copyright (c) 2026 Matt0k (PinStudio). All rights reserved.
+
+This software, including its source code, compiled builds, configuration files,
+documentation and any derivative work (together, the "Software"), is the exclusive
+property of the copyright holder. It is NOT open source.
+
+1. AUTHORIZED USERS
+   Only developers of the Waked team who have been explicitly granted access by the
+   copyright holder ("Authorized Users") may access the Software. Access ends
+   automatically when a person leaves the Waked team or when the copyright holder
+   revokes it.
+
+2. PERMITTED USE
+   Authorized Users may clone, read, modify and build the Software, solely to develop,
+   maintain and operate Minecraft servers run by Waked.
+
+3. PROHIBITED USE
+   Unless the copyright holder gives prior written permission, it is strictly
+   forbidden to:
+   a) use the Software, in whole or in part, in any other project, server or product;
+   b) copy, publish, share, redistribute, sell, rent or sublicense the Software or any
+      build of it, publicly or privately, including to other Waked members who are not
+      Authorized Users;
+   c) reuse any part of the source code (classes, methods, algorithms, assets) in
+      another codebase;
+   d) remove, disable or bypass the license verification, or alter this license and
+      the copyright notices.
+
+4. LICENSE KEY
+   Running the Software requires a valid license key issued by the copyright holder.
+   Development keys are requested from matt0k on Discord. A key is personal and
+   must not be shared.
+
+5. CONTRIBUTIONS
+   Any modification or contribution made to the Software by an Authorized User becomes
+   the property of the copyright holder and is covered by this license.
+
+6. TERMINATION
+   Any breach of this license terminates the rights granted above immediately. Upon
+   termination or loss of access, every copy of the Software (source and builds) must
+   be deleted.
+
+7. ENFORCEMENT
+   Any unauthorized use, copy or distribution is an infringement of the copyright
+   holder's rights and will be pursued by every available legal means.
+
+8. NO WARRANTY
+   The Software is provided "as is", without warranty of any kind. The copyright holder
+   is not liable for any damage resulting from its use.
+
+9. GOVERNING LAW
+   This license is governed by Swiss law.
+
+For any request (access, license key, permission): matt0k on Discord.
