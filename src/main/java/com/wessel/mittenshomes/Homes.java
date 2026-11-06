@@ -17,8 +17,7 @@ public class Homes extends JavaPlugin {
         instance = this;
         try {
             saveDefaultConfig();
-            // Bukkit's default loader logs malformed YAML and returns an empty config.
-            // Fail closed instead, before an edit could overwrite the original homes.
+            // Bad YAML? Stop before we overwrite anything.
             new org.bukkit.configuration.file.YamlConfiguration().load(
                     new java.io.File(getDataFolder(), "config.yml"));
             homeManager = new HomeManager(this);
@@ -26,6 +25,7 @@ public class Homes extends JavaPlugin {
             registerCommand("sethome", new SethomeCommand(this));
             registerCommand("delhome", new DelhomeCommand(this));
             registerCommand("homes", new HomesCommand(this));
+            registerCommand("homeadmin", new HomeAdminCommand(this));
             getServer().getPluginManager().registerEvents(new HomeGUIListener(this), this);
             getLogger().info("homes has been enabled!");
         } catch (Exception ex) {

@@ -16,7 +16,7 @@ import java.util.*;
 
 public class HomeManager {
     private final Homes plugin;
-    // Keep world names, not World references: unloaded worlds must not erase homes.
+    // Unloaded world? Keep the home.
     private final Map<UUID, Map<String, String>> homes = new HashMap<>();
     private final Map<UUID, Long> tpCooldown = new HashMap<>();
     private final Map<UUID, BukkitTask> teleportTasks = new HashMap<>();
@@ -42,7 +42,7 @@ public class HomeManager {
                 for (String name : playerSection.getKeys(false)) {
                     String value = playerSection.getString(name);
                     try {
-                        parse(value); // Validate coordinates even if the world is unavailable.
+                        parse(value); // Check coords, not world availability.
                         playerHomes.put(name, value);
                     } catch (IllegalArgumentException ex) {
                         plugin.getLogger().warning("Invalid home " + name + " for " + id + "; preserved in config.yml.");
@@ -98,7 +98,7 @@ public class HomeManager {
 
     private String[] parse(String value) {
         if (value == null) throw new IllegalArgumentException("Missing location");
-        // World names can contain commas; coordinates are the final five fields.
+        // Last five fields are coords. Worlds can have commas.
         String[] parts = value.split(",", -1);
         int offset = parts.length - 5;
         if (offset < 1) throw new IllegalArgumentException("Invalid location");
@@ -121,6 +121,10 @@ public class HomeManager {
         if (hasHome(uuid, input)) return input;
         if (input.matches("[1-3]") && hasHome(uuid, "Home " + input)) return "Home " + input;
         return input;
+    }
+
+    public String getHomeSnapshot(UUID uuid, String name) {
+        return homes.getOrDefault(uuid, Map.of()).get(name);
     }
 
     public boolean hasHome(UUID uuid, String name) {
@@ -152,6 +156,12 @@ public class HomeManager {
         persist(uuid, name, null);
         homes.get(uuid).remove(name);
         cancelTeleport(uuid);
+    }
+
+    public Set<UUID> getHomeOwners() {
+        Set<UUID> owners = new HashSet<>();
+        homes.forEach((uuid, entries) -> { if (!entries.isEmpty()) owners.add(uuid); });
+        return Set.copyOf(owners);
     }
 
     public int getHomeCount(UUID uuid) {

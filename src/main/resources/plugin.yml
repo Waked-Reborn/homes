@@ -23,6 +23,10 @@ commands:
     usage: /homes
     permission: mittenshomes.homes
 
+  homeadmin:
+    description: Inspect and manage other players' homes
+    usage: /homeadmin <players|list|info|tp|delete> [player|uuid] [home name]
+
 permissions:
   mittenshomes.home:
     description: Allows using /home
@@ -36,3 +40,19 @@ permissions:
   mittenshomes.homes:
     description: Allows using /homes
     default: true
+  mittenshomes.admin:
+    description: Grants all home administration actions
+    default: op
+    children:
+      mittenshomes.admin.view: true
+      mittenshomes.admin.teleport: true
+      mittenshomes.admin.delete: true
+  mittenshomes.admin.view:
+    description: List home owners and inspect their homes
+    default: op
+  mittenshomes.admin.teleport:
+    description: Teleport to another player's home instantly
+    default: op
+  mittenshomes.admin.delete:
+    description: Delete another player's home
+    default: op

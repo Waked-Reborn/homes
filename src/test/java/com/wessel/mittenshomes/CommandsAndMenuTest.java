@@ -70,12 +70,12 @@ class CommandsAndMenuTest {
         when(meta.clone()).thenReturn(meta);
         try (MockedStatic<Bukkit> bukkit = mockStatic(Bukkit.class)) {
             bukkit.when(Bukkit::getItemFactory).thenReturn(factory);
-            bukkit.when(() -> Bukkit.createInventory(any(InventoryHolder.class), eq(27), anyString())).thenReturn(inventory);
+            bukkit.when(() -> Bukkit.createInventory(any(InventoryHolder.class), eq(54), anyString())).thenReturn(inventory);
             HomeGUI gui = new HomeGUI(plugin);
             gui.openHomeGUI(player);
-            assertEquals(empty ? "Home 1" : "Ma base", gui.getHomeName(12));
-            assertNotNull(gui.getHomeName(13));
-            assertNotNull(gui.getHomeName(14));
+            assertEquals(empty ? "Home 1" : "Ma base", gui.getHomeName(20));
+            assertNotNull(gui.getHomeName(22));
+            assertNotNull(gui.getHomeName(24));
             assertNull(gui.getHomeName(15));
             assertEquals(uuid, gui.getOwner());
             assertSame(inventory, gui.getInventory());

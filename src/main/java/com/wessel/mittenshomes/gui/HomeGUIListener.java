@@ -23,33 +23,14 @@ public class HomeGUIListener implements Listener {
         event.setCancelled(true);
         if (!(event.getWhoClicked() instanceof Player player) || !player.getUniqueId().equals(gui.getOwner())) return;
         if (event.getRawSlot() < 0 || event.getRawSlot() >= event.getView().getTopInventory().getSize()) return;
-        String name = gui.getHomeName(event.getRawSlot());
-        if (name == null || (event.getClick() != ClickType.LEFT && event.getClick() != ClickType.RIGHT)) return;
-        boolean delete = event.getClick() == ClickType.RIGHT;
-        // Inventory open/close must happen after the click transaction has completed.
+        if (event.getClick() != ClickType.LEFT && event.getClick() != ClickType.RIGHT) return;
+        int slot = event.getRawSlot();
+        ClickType click = event.getClick();
+        // Let the inventory finish its click first.
         plugin.getServer().getScheduler().runTask(plugin, () -> {
             if (!player.isOnline() || player.getOpenInventory().getTopInventory() != gui.getInventory()) return;
-            var manager = plugin.getHomeManager();
-            boolean exists = manager.hasHome(player.getUniqueId(), name);
-            String permission = delete ? "delhome" : exists ? "home" : "sethome";
-            if (!player.hasPermission("mittenshomes." + permission)) {
-                player.sendMessage(ChatColor.RED + "You do not have permission to do this.");
-                return;
-            }
             try {
-                if (delete) {
-                    if (!exists) return;
-                    manager.removeHome(player.getUniqueId(), name);
-                    player.sendMessage(ChatColor.GREEN + "Home " + name + " has been deleted.");
-                } else if (exists) {
-                    manager.startTeleport(player, manager.getHome(player.getUniqueId(), name));
-                    if (manager.isTeleporting(player.getUniqueId())) player.closeInventory();
-                    return;
-                } else {
-                    manager.setHome(player.getUniqueId(), name, player.getLocation());
-                    player.sendMessage(ChatColor.GREEN + "Home " + name + " has been saved.");
-                }
-                new HomeGUI(plugin).openHomeGUI(player);
+                gui.handleClick(player, slot, click);
             } catch (IllegalArgumentException ex) {
                 player.sendMessage(ChatColor.RED + ex.getMessage());
             } catch (IllegalStateException ex) {

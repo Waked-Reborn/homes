@@ -79,7 +79,7 @@ class HomeGUIListenerTest {
         verify(event).setCancelled(true);
     }
 
-    @Test void menuChecksSetPermissionOnScheduledAction() {
+    @Test void menuActionRunsAfterClickTransaction() {
         when(gui.getHomeName(12)).thenReturn("Home 1");
         InventoryClickEvent event = click(12);
         listener.onInventoryClick(event);
@@ -87,7 +87,7 @@ class HomeGUIListenerTest {
         verify(scheduler).runTask(eq(plugin), runnable.capture());
         verify(manager, never()).setHome(any(), any(), any());
         runnable.getValue().run();
-        verify(player).hasPermission("mittenshomes.sethome");
+        verify(gui).handleClick(player, 12, ClickType.LEFT);
         verify(manager, never()).setHome(any(), any(), any());
     }
 
