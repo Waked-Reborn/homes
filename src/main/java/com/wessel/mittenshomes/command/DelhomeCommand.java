@@ -1,33 +1,23 @@
 package com.wessel.mittenshomes.command;
+
 import com.wessel.mittenshomes.Homes;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-public class DelhomeCommand implements CommandExecutor {
-    private final Homes plugin;
-    public DelhomeCommand(Homes plugin) {
-        this.plugin = plugin;
-    }
+
+public class DelhomeCommand extends PlayerCommand {
+    public DelhomeCommand(Homes plugin) { super(plugin); }
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cPlayers only."));
-            return true;
+    protected void execute(Player player, String[] args) {
+        if (args.length == 0) {
+            player.sendMessage(ChatColor.GRAY + "Usage: /delhome <name>");
+            return;
         }
-        Player player = (Player) sender;
-        if (args.length < 1) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Usage: &f/delhome <name>"));
-            return true;
-        }
-        String name = args[0];
+        String name = name(player, args);
         if (!plugin.getHomeManager().hasHome(player.getUniqueId(), name)) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou do not have a home named &f" + name + "&c."));
-            return true;
+            player.sendMessage(ChatColor.RED + "You do not have a home named " + name + ".");
+            return;
         }
         plugin.getHomeManager().removeHome(player.getUniqueId(), name);
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cHome &f" + name + "&c has been deleted."));
-        return true;
+        player.sendMessage(ChatColor.GREEN + "Home " + name + " has been deleted.");
     }
 }

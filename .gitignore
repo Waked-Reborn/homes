@@ -1,0 +1,8 @@
+/target/
+/server/*
+!/server/README.md
+.idea/
+*.iml
+*.log
+.DS_Store
+/AGENTS.md

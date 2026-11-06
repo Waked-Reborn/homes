@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run local server" type="JarApplication">
+    <option name="JAR_PATH" value="$PROJECT_DIR$/server/server.jar" />
+    <option name="VM_PARAMETERS" value="-Xms1G -Xmx2G" />
+    <option name="PROGRAM_PARAMETERS" value="--nogui" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/server" />
+    <method v="2" />
+  </configuration>
+</component>

@@ -1,14 +1,14 @@
 name: homes
-version: 1.0.0
+version: '${project.version}'
 main: com.wessel.mittenshomes.Homes
-api-version: 1.21
+api-version: '1.21'
 description: "Home plugin - /home, /sethome, /delhome, /homes (max 3 homes)"
 author: Wessel
 
 commands:
   home:
     description: Teleport to a home
-    usage: /home <name>
+    usage: /home [name]
     permission: mittenshomes.home
   sethome:
     description: Set a home
@@ -23,6 +23,10 @@ commands:
     usage: /homes
     permission: mittenshomes.homes
 
+  homeadmin:
+    description: Inspect and manage other players' homes
+    usage: /homeadmin <players|list|info|tp|delete> [player|uuid] [home name]
+
 permissions:
   mittenshomes.home:
     description: Allows using /home
@@ -36,3 +40,19 @@ permissions:
   mittenshomes.homes:
     description: Allows using /homes
     default: true
+  mittenshomes.admin:
+    description: Grants all home administration actions
+    default: op
+    children:
+      mittenshomes.admin.view: true
+      mittenshomes.admin.teleport: true
+      mittenshomes.admin.delete: true
+  mittenshomes.admin.view:
+    description: List home owners and inspect their homes
+    default: op
+  mittenshomes.admin.teleport:
+    description: Teleport to another player's home instantly
+    default: op
+  mittenshomes.admin.delete:
+    description: Delete another player's home
+    default: op
