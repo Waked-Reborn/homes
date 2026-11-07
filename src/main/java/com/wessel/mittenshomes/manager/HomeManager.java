@@ -148,6 +148,7 @@ public class HomeManager {
         String value = serialize(loc);
         persist(uuid, name, value);
         homes.computeIfAbsent(uuid, key -> new TreeMap<>()).put(name, value);
+        com.wessel.mittenshomes.analytics.AnalyticsHook.record(uuid, "home_saved", "", 1);
         cancelTeleport(uuid);
     }
 
@@ -155,6 +156,7 @@ public class HomeManager {
         if (!hasHome(uuid, name)) return;
         persist(uuid, name, null);
         homes.get(uuid).remove(name);
+        com.wessel.mittenshomes.analytics.AnalyticsHook.record(uuid, "home_removed", "", 1);
         cancelTeleport(uuid);
     }
 
@@ -246,6 +248,7 @@ public class HomeManager {
                 World world = destination.getWorld();
                 if (world != null && plugin.getServer().getWorld(world.getUID()) != null && player.teleport(destination)) {
                     setCooldown(uuid);
+                    com.wessel.mittenshomes.analytics.AnalyticsHook.record(uuid, "home_teleport", "", 1);
                     player.sendMessage(ChatColor.GREEN + "Teleported!");
                 } else {
                     player.sendMessage(ChatColor.RED + "Teleport failed or was cancelled.");
